@@ -1,6 +1,7 @@
-class GameState {
-
-    findInventoryItems() {
+class GameState 
+{
+    findInventoryItems() 
+    {
         var allCards = document.getElementsByClassName("cbtn");
         var temp = [];
         for(var i=2; i<allCards.length; i++)
@@ -11,17 +12,33 @@ class GameState {
         }
         return temp;
     }
-    findActiveCard() {
-        var card = document.getElementsByClassName("cbtn")[0];
-        if(card.getAttribute('style').includes("margin:0"))
+    findActiveCard() 
+    {
+        var cards = document.getElementsByClassName("cbtn");
+        for(var i=0; i<cards.length; i++)
         {
-            return card.getAttribute('style').match(/images\/([0-9]{3}).png/)[1];
+            card = cards[i];
+            if(card.getAttribute('style').includes("margin:0"))
+            {
+                return card.getAttribute('style').match(/images\/([0-9]{3}).png/)[1];
+            }
         }
-        else
-        {
-            console.log("GOT WRONG CARD!");
-            console.log(document.getElementsByClassName("cbtn"))
-        }
+    }
+}
+
+class InventorySorter 
+{
+    findCardByColor(inventory, color) 
+    {
+
+    }
+    findCardByNumber(inventory, number) 
+    {
+
+    }
+    findCardByType(inventory, type)
+    {
+        
     }
 }
 
