@@ -18,7 +18,7 @@ class GameState
         for(var i=0; i<cards.length; i++)
         {
             var card = cards[i];
-            if(card.getAttribute('style').includes("margin:0"))
+            if(card.getAttribute('style').includes("margin:0 10px 0 0"))
             {
                 return card.getAttribute('style').match(/images\/([0-9]{3}).png/)[1];
             }
