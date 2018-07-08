@@ -23,6 +23,7 @@
                 //join it
                 console.log("joining lobby");
                 $(lobby.childNodes[4].childNodes[0]).trigger("click");
+                return;
             }
         }
         console.log("no lobbies to join. refreshing in 5 seconds");
@@ -32,9 +33,9 @@
     }
 })();
 
-class GameState 
+class GameState
 {
-    static findInventoryItems() 
+    static findInventoryItems()
     {
         var allCards = document.getElementsByClassName("cbtn");
         var temp = [];
@@ -46,7 +47,7 @@ class GameState
         }
         return temp;
     }
-    static findActiveCard() 
+    static findActiveCard()
     {
         var cards = document.getElementsByClassName("cbtn");
         for(var i=0; i<cards.length; i++)
@@ -75,9 +76,9 @@ class GameState
     }
 }
 
-class InventorySorter 
+class InventorySorter
 {
-    constructor(inventory, activecard) 
+    constructor(inventory, activecard)
     {
         //find playable cards
         this.rawcards = inventory;
@@ -108,7 +109,7 @@ class InventorySorter
         }
         this.inventory = playable;
     }
-    findCardsByColor(color, inv=this.inventory) 
+    findCardsByColor(color, inv=this.inventory)
     {
         var cards = [];
         for(var i=0; i<inv.length; i++)
@@ -121,7 +122,7 @@ class InventorySorter
         }
         return cards;
     }
-    findCardsByNumber(number) 
+    findCardsByNumber(number)
     {
         var cards = [];
         for(var i=0; i<this.inventory.length; i++)
@@ -152,7 +153,7 @@ class InventorySorter
         var cards = [];
         for(var i=0; i<this.inventory.length; i++)
         {
-            //special 
+            //special
             if(this.inventory[i][0] == '2' && this.inventory[i][2] == id)
             {
                 cards.push(this.inventory[i]);
@@ -195,13 +196,13 @@ if(window.location.href == "https://play.unofreak.com/game")
     var menuElement = document.getElementById("playerdata");
 
     setInterval(function() {
-        if(document.innerText.includes("This game has ended"))
+        if(document.body.innerText.includes("This game has ended"))
         {
             window.location.href = "https://play.unofreak.com";
         }
     }, 5000);
 
-    menuElement.addEventListener('DOMSubtreeModified', function(event) 
+    menuElement.addEventListener('DOMSubtreeModified', function(event)
     {
         var currentTurn = menuElement.querySelector("li[style='background:#fdf8c3;']");
         if(currentTurn !== null)
@@ -245,7 +246,7 @@ if(window.location.href == "https://play.unofreak.com/game")
         var type = activeCard[0]; //index 0 = type
         var color = activeCard[1]; //index 1 = color
         var number = activeCard[2] //index 2 = number/id
-    
+
         var sorter = new InventorySorter(inventory, activeCard); //finds playable cards in constructor
 
         //first priority is +2
@@ -256,7 +257,7 @@ if(window.location.href == "https://play.unofreak.com/game")
             playCard(playablePicks[0]); //todo: change to be color-conscious
 
             //it'll be his turn again in 1v1, re-process
-            if(state.findPlayerList().length == 2)
+            if(GameState.findPlayerList().length == 2)
             {
                 setTimeout(function() {
                     processTurn(playablePicks[0], picked, called);
@@ -273,7 +274,7 @@ if(window.location.href == "https://play.unofreak.com/game")
             playCard(playableSkips[0]); //todo: change to be color-conscious
 
             //it'll be his turn again in 1v1, re-process
-            if(state.findPlayerList().length == 2)
+            if(GameState.findPlayerList().length == 2)
             {
                 setTimeout(function() {
                     processTurn(playableSkips[0], picked, called);
@@ -283,7 +284,7 @@ if(window.location.href == "https://play.unofreak.com/game")
         }
 
         //after specials, always play the current color first
-        var playableCurrent = sorter.findCardsByColor(color); 
+        var playableCurrent = sorter.findCardsByColor(color);
         if(playableCurrent.length > 0)
         {
             console.log("Found matching color");
@@ -330,7 +331,7 @@ if(window.location.href == "https://play.unofreak.com/game")
                 sendcard(sorter.colorFromId(bestcolor));
 
                 //it'll be his turn again in 1v1, re-process
-                if(state.findPlayerList().length == 2)
+                if(GameState.findPlayerList().length == 2)
                 {
                     playableWild[0][1] = bestcolor;
                     setTimeout(function() {
@@ -352,7 +353,7 @@ if(window.location.href == "https://play.unofreak.com/game")
             return;
         }
         console.log("Still no playable cards, turn over.");
-        
+
     }
     function playCard(card)
     {
