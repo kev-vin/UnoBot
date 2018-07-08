@@ -25,6 +25,20 @@ class GameState
             }
         }
     }
+    static findPlayerList()
+    {
+        var menu = document.getElementsByClassName("vmenu")[0];
+        var players = [];
+        for(var i=0; i<menu.childNodes.length; i++)
+        {
+            var player = menu.childNodes[i];
+            if(player.childNodes[0].getAttribute("style") != "height:24px;margin-top:-5px;")
+            {
+                players.push(player);
+            }
+        }
+        return players;
+    }
 }
 
 class InventorySorter 
@@ -144,6 +158,14 @@ var playerName = document.querySelector("#messageForm1 > font > b").innerText.re
 var inTurn = false;
 
 var menuElement = document.getElementById("playerdata");
+
+setInterval(function() {
+    if(document.innerText.includes("This game has ended"))
+    {
+        window.location.href = "https://play.unofreak.com";
+    }
+}, 5000);
+
 menuElement.addEventListener('DOMSubtreeModified', function(event) 
 {
     var currentTurn = menuElement.querySelector("li[style='background:#fdf8c3;']");
@@ -197,6 +219,14 @@ function processTurn(activeCard, picked = false, called=false)
     {
         console.log("Found first priority +2");
         playCard(playablePicks[0]); //todo: change to be color-conscious
+
+        //it'll be his turn again in 1v1, re-process
+        if(state.findPlayerList().length == 2)
+        {
+            setTimeout(function() {
+                processTurn(playablePicks[0], picked, called);
+            }, 2000);
+        }
         return;
     }
 
@@ -206,6 +236,14 @@ function processTurn(activeCard, picked = false, called=false)
     {
         console.log("Found second priority skip or direction");
         playCard(playableSkips[0]); //todo: change to be color-conscious
+
+        //it'll be his turn again in 1v1, re-process
+        if(state.findPlayerList().length == 2)
+        {
+            setTimeout(function() {
+                processTurn(playableSkips[0], picked, called);
+            }, 2000);
+        }
         return;
     }
 
@@ -215,6 +253,8 @@ function processTurn(activeCard, picked = false, called=false)
     {
         console.log("Found matching color");
         playCard(playableCurrent[0]);
+
+        //it'll be his turn again in 1v1, re-process
         return;
     }
     else
@@ -253,6 +293,15 @@ function processTurn(activeCard, picked = false, called=false)
             var bestcolor = sorter.findBestColor();
             console.log("Best color determined to be " + bestcolor + " ("+sorter.colorFromId(bestcolor)+")");
             sendcard(sorter.colorFromId(bestcolor));
+
+            //it'll be his turn again in 1v1, re-process
+            if(state.findPlayerList().length == 2)
+            {
+                playableWild[0][1] = bestcolor;
+                setTimeout(function() {
+                    processTurn(playableWild[0], picked, called);
+                }, 2000);
+            }
         }, 2000);
         return;
     }
