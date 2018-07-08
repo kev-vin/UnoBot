@@ -1,6 +1,6 @@
 class GameState 
 {
-    findInventoryItems() 
+    static findInventoryItems() 
     {
         var allCards = document.getElementsByClassName("cbtn");
         var temp = [];
@@ -12,7 +12,7 @@ class GameState
         }
         return temp;
     }
-    findActiveCard() 
+    static findActiveCard() 
     {
         var cards = document.getElementsByClassName("cbtn");
         for(var i=0; i<cards.length; i++)
@@ -20,6 +20,7 @@ class GameState
             var card = cards[i];
             if(card.getAttribute('style').includes("margin:0 10px 0 0"))
             {
+                console.log(card);
                 return card.getAttribute('style').match(/images\/([0-9]{3}).png/)[1];
             }
         }
@@ -153,7 +154,10 @@ menuElement.addEventListener('DOMSubtreeModified', function(event)
             if(!inTurn) //inTurn makes sure the event isnt called more than once in a turn
             {
                 inTurn = true;
-                processTurn(false, false);
+                setTimeout(function() {
+                    var activeCard = GameState.findActiveCard();
+                    processTurn(activeCard, false, false);
+                }, 500);
             }
         }
         else
@@ -163,13 +167,10 @@ menuElement.addEventListener('DOMSubtreeModified', function(event)
     }
 });
 
-function processTurn(picked = false, called=false)
+function processTurn(activeCard, picked = false, called=false)
 {
-    var state = new GameState();
-
-    var activeCard = state.findActiveCard();
     console.log("Turn started with active card " + activeCard);
-    var inventory = state.findInventoryItems();
+    var inventory = GameState.findInventoryItems();
 
     if(!called)
     {
@@ -179,7 +180,7 @@ function processTurn(picked = false, called=false)
             console.log("Called uno");
             //let that process, then go again
             setTimeout(function() {
-                processTurn(false, true);
+                processTurn(activeCard, false, true);
             }, 2000)
             return;
         }
@@ -262,7 +263,7 @@ function processTurn(picked = false, called=false)
         console.log("Picked card from deck");
         //re-call turn process function to process with new card
         setTimeout(function() {
-            processTurn(true, called);
+            processTurn(activeCard, true, called);
         }, 1500);
         return;
     }
