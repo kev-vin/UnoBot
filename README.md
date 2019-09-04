@@ -67,7 +67,6 @@ I had to add a few more methods to the sorter to get this to function properly.
 The "playCard" function just calls the site's sendcard function with some extra debugging information. I'll probably remove it for consistency.
 
 ## Step 6 - The test -- Don Carlos Jr., Uno Extraordinaire 
-[video=streamable]https://streamable.com/unb19[/video]
 https://streamable.com/unb19
 
 ## Goals & Final Notes
