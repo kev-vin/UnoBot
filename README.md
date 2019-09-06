@@ -1,6 +1,5 @@
-After playing uno with some people on discord, I thought it'd be a fun little project to create a simple bot that plays the game automatically -- maybe even give it a slight strategic advantage. I decided to use a site called unofreak as the game host due to its simplicity and multiplayer capacity. **Please note that it is highly likely that I made mistakes and there are probably better ways for this to be written. I'm open to corrections a suggestions.**
-To prevent skidding, I left out a few unimportant bits of code (mostly structural).
-
+After playing uno with some people on discord, I thought it'd be a fun little project to create a simple bot that plays the game automatically -- maybe even give it a slight strategic advantage. I decided to use a site called unofreak as the game host due to its simplicity and multiplayer capacity. **Please note that it is highly likely that I made mistakes and there are probably better ways for this to be written.
+**
 ## Step 1 - Reconnaissance
 Before beginning, I needed to understand how the service worked. I started up a private game and began digging.
 The first thing I noticed was a structure for card IDs:
